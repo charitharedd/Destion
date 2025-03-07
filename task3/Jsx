@@ -1,0 +1,23 @@
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+
+const generatePDF = (orders) => {
+  const doc = new jsPDF();
+  doc.text("Invoice Report", 10, 10);
+  
+  const tableData = orders.map((order) => [
+    order.storeName,
+    order.orderId,
+    order.date,
+    order.quantity,
+    $${order.dealPrice},
+    ${order.tax}%,
+  ]);
+
+  doc.autoTable({
+    head: [["Store", "Order ID", "Date", "Quantity", "Deal Price", "Tax"]],
+    body: tableData,
+  });
+
+  doc.save("invoice.pdf");
+};
