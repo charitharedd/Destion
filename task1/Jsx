@@ -1,0 +1,64 @@
+import React, { useState } from "react";
+
+const Invoice = () => {
+  const [orders, setOrders] = useState([
+    {
+      id: 1,
+      storeName: "Tech Store",
+      orderId: "ORD001",
+      date: "2025-03-07",
+      quantity: 2,
+      regularPrice: 500,
+      dealPrice: 450,
+      tax: 18, // in percentage
+    },
+  ]);
+
+  // Calculate total
+  const calculateTotal = (order) => {
+    const totalWithoutTax = order.quantity * order.dealPrice;
+    const taxAmount = (totalWithoutTax * order.tax) / 100;
+    return { totalWithoutTax, totalWithTax: totalWithoutTax + taxAmount };
+  };
+
+  return (
+    <div>
+      <h2>Invoice Portal</h2>
+      <table border="1">
+        <thead>
+          <tr>
+            <th>Store</th>
+            <th>Order ID</th>
+            <th>Date</th>
+            <th>Quantity</th>
+            <th>Regular Price</th>
+            <th>Deal Price</th>
+            <th>Total (Before Tax)</th>
+            <th>Tax</th>
+            <th>Total (With Tax)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {orders.map((order) => {
+            const totals = calculateTotal(order);
+            return (
+              <tr key={order.id}>
+                <td>{order.storeName}</td>
+                <td>{order.orderId}</td>
+                <td>{order.date}</td>
+                <td>{order.quantity}</td>
+                <td>${order.regularPrice}</td>
+                <td>${order.dealPrice}</td>
+                <td>${totals.totalWithoutTax.toFixed(2)}</td>
+                <td>{order.tax}%</td>
+                <td>${totals.totalWithTax.toFixed(2)}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+export default Invoice;
