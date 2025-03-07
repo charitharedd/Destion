@@ -1,0 +1,52 @@
+import React, { useState } from "react";
+
+const ProductManagement = () => {
+  const [products, setProducts] = useState([
+    { id: 1, name: "Laptop", store: "Tech Store", price: 800 },
+    { id: 2, name: "Headphones", store: "Gadget Store", price: 50 },
+  ]);
+
+  const [search, setSearch] = useState("");
+
+  // Function to delete a product
+  const deleteProduct = (id) => {
+    setProducts(products.filter((product) => product.id !== id));
+  };
+
+  return (
+    <div>
+      <h2>Product Management</h2>
+      <input
+        type="text"
+        placeholder="Search Product"
+        onChange={(e) => setSearch(e.target.value.toLowerCase())}
+      />
+      <table border="1">
+        <thead>
+          <tr>
+            <th>Product Name</th>
+            <th>Store</th>
+            <th>Price</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {products
+            .filter((product) => product.name.toLowerCase().includes(search))
+            .map((product) => (
+              <tr key={product.id}>
+                <td>{product.name}</td>
+                <td>{product.store}</td>
+                <td>${product.price}</td>
+                <td>
+                  <button onClick={() => deleteProduct(product.id)}>Delete</button>
+                </td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+export default ProductManagement;
